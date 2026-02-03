@@ -10,7 +10,7 @@ test('User can successfully complete checkout', async ({ page }) => {
   const checkout = new CheckoutPage(page);
   const complete = new CheckoutCompletePage(page);
 
-  await page.goto('/inventory.html');
+  await page.goto('/insdsdfeeventory.html');
 
   await inventory.addBackpackToCart();
   await inventory.goToCart();
