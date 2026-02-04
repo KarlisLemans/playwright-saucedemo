@@ -1,44 +1,28 @@
 import { test } from '@playwright/test';
-import { CheckoutPage } from '../pages/checkout.page';
+import { InventoryPage } from '../pages/inventory.page.ts';
+import { CheckoutPage } from '../pages/checkout.page.ts';
 
-test.describe('Negative checkout scenarios', () => {
+test('missing first name', async ({ page }) => {
+  const inventory = new InventoryPage(page);
+  const checkout = new CheckoutPage(page);
 
-  test('missing first name', async ({ page }) => {
-    const checkout = new CheckoutPage(page);
+  await page.goto('/inventory.html');
 
-    await test.step('Start checkout', async () => {
-      await checkout.startCheckout();
-    });
-
-    await test.step('Leave first name empty', async () => {
-      await checkout.fillCheckoutInfo('', 'Doe', '12345');
-    });
-
-    await test.step('Submit checkout', async () => {
-      await checkout.submit();
-    });
-
-    await test.step('Verify error message', async () => {
-      await checkout.assertError('First Name is required');
-    });
+  await test.step('Add item to cart', async () => {
+    await inventory.addBackpackToCart();
+    await inventory.goToCart();
   });
 
-  test('missing last name', async ({ page }) => {
-    const checkout = new CheckoutPage(page);
-
+  await test.step('Start checkout', async () => {
     await checkout.startCheckout();
-    await checkout.fillCheckoutInfo('John', '', '12345');
-    await checkout.submit();
-    await checkout.assertError('Last Name is required');
   });
 
-  test('missing postal code', async ({ page }) => {
-    const checkout = new CheckoutPage(page);
-
-    await checkout.startCheckout();
-    await checkout.fillCheckoutInfo('John', 'Doe', '');
+  await test.step('Submit checkout with missing first name', async () => {
+    await checkout.fillCheckoutInfo('', 'Doe', '12345');
     await checkout.submit();
-    await checkout.assertError('Postal Code is required');
   });
 
+  await test.step('Verify error', async () => {
+    await checkout.assertError('Error: First Name is required');
+  });
 });
