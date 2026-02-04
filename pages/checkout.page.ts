@@ -43,10 +43,11 @@ export class CheckoutPage {
 
   async finishCheckout() {
     await this.page.click('[data-test="finish"]');
+    await expect(this.page).toHaveURL('/checkout-complete.html');
   }
 
   async assertError(message: string) {
     await expect(this.errorMessage).toHaveText(message);
-    await expect(this.page).toHaveURL('/checkout-complete.html');
+    
   }
 }
