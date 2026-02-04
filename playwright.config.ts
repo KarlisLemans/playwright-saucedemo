@@ -21,13 +21,19 @@ export default defineConfig({
   retries: process.env.CI ? 2 : 0,
   /* Opt out of parallel tests on CI. */
   workers: process.env.CI ? 1 : undefined,
-  /* Reporter to use. See https://playwright.dev/docs/test-reporters */
-  reporter: 'html',
+ /* Reporter to use. See https://playwright.dev/docs/test-reporters */
+  reporter: [
+    ['html', { open: 'never' }],
+  ],
   /* Shared settings for all the projects below. See https://playwright.dev/docs/api/class-testoptions. */
  globalSetup: './global-setup.ts',
  use: {
     baseURL: 'https://www.saucedemo.com',
     storageState: 'storage/auth.json',
+    headless: true,
+    screenshot: 'only-on-failure',
+    trace: 'retain-on-failure',
+    video: 'retain-on-failure',
   },
 
   /* Configure projects for major browsers */
