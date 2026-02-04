@@ -17,8 +17,8 @@ test('User can successfully complete checkout', async ({ page }) => {
 
   await cart.checkout();
 
-  await checkout.fillInformation('John', 'Doe', '12345');
-  await checkout.finishCheckout();
+  await checkout.fillCheckoutInfo('John', 'Doe', '12345');
+  await checkout.submit();
 
   await complete.verifyCompletion();
 });
