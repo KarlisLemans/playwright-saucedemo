@@ -26,14 +26,8 @@ jobs:
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
 
-      - name: Run Playwright smoke tests
-        run: npx playwright test --grep @smoke
-
-      - name: Run Playwright negative tests
-        run: npx playwright test --grep @negative
-
-      - name: Run Playwright regression tests
-        run: npx playwright test --grep @regression
+      - name: Run Playwright tests
+        run: npx playwright test
 
       # ✅ UPLOAD ONLY ONCE, AFTER EVERYTHING
       - name: Upload Playwright report
