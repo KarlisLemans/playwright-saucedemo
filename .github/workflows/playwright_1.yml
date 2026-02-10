@@ -8,8 +8,8 @@ on:
 
 jobs:
   test:
-    timeout-minutes: 60
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
       - name: Checkout repository
@@ -29,9 +29,11 @@ jobs:
       - name: Run Playwright tests
         run: npx playwright test
 
+      # ✅ UPLOAD ONLY ONCE, AFTER EVERYTHING
       - name: Upload Playwright report
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: playwright-report
+          name: playwright-report-${{ github.run_id }}
           path: playwright-report
+          if-no-files-found: ignore
